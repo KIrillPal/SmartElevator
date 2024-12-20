@@ -1,0 +1,89 @@
+version: '3.7'
+
+services:
+  state_service:
+    build: ./state-service
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8001
+    volumes:
+      - ./state-service/:/service/
+    ports:
+      - 8001:8001
+  
+
+  behaviour_service:
+    build: ./behaviour-service
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8002
+    volumes:
+      - ./behaviour-service/:/service/
+    ports:
+      - 8002:8002
+
+
+  operation_service:
+    build: ./operation-service
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8003
+    volumes:
+      - ./operation-service/:/service/
+    ports:
+      - 8003:8003
+
+
+  authentication_service:
+    build: ./authentication-service
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8004
+    volumes:
+      - ./authentication-service/:/service/
+    ports:
+      - 8004:8004
+
+  # Running two controllers
+  controller:
+    build: ./controller
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8005; uvicorn src.main:app --reload --host 0.0.0.0 --port 8006
+    volumes:
+      - ./controller/:/service/
+    ports:
+      - 8005:8005
+      - 8006:8006
+
+
+  dashboard:
+    build: ./dashboard
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8007
+    volumes:
+      - ./dashboard/:/service/
+    ports:
+      - 8007:8007
+
+
+  recognition_service:
+    build: ./recognition-service
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8008
+    volumes:
+      - ./recognition-service/:/service/
+    ports:
+      - 8008:8008
+
+
+  auth_db:
+    image: postgres:12.1-alpine
+    volumes:
+      - postgres_data_sessions:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=sessions_db
+
+
+  state_db:
+    image: postgres:12.1-alpine
+    volumes:
+      - postgres_data_states:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=states_db
+
+volumes:
+  postgres_data_sessions:
+  postgres_data_states:
