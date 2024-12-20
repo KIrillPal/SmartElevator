@@ -3,4 +3,16 @@
 
 -----
 ### Статус проекта:
-Стадия проектирования завершена. Скоро начнется стадия реализации.
+Реализация:
+- [x] Контейнеризация проекта в Docker
+- [ ] Dashboard CLI
+- [ ] Controller
+- [ ] Behaviour Service
+- [ ] Operation Service
+- [ ] Recognition Service
+- [ ] Логика State Service
+- [ ] Логика Authentication Service
+- [ ] Postgres для State Service
+- [ ] Postgres для Authentication Service
+
+Доки: TODO
